@@ -44,7 +44,8 @@ jobs:
       run: pnpm install
 
     - uses: nrwl/nx-set-shas@v3
-    - run: git branch --track main origin/main
+    - if: github.event_name == 'pull_request' && github.base_ref == 'main'
+      run: git branch --track main origin/main
 
     - run: npx nx format:check
     - run: npx nx affected -t lint,test,build --parallel=3
