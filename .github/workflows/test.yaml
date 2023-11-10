@@ -1,0 +1,38 @@
+name: Affected Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  affected:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'pnpm'
+
+    - name: Install Dependencies
+      run: pnpm install
+
+    - name: Determine Affected Projects
+      id: affected
+      run: |
+        echo "::set-output name=build::$(pnpm nx affected:build --base=origin/main --head=HEAD --plain)"
+        echo "::set-output name=test::$(pnpm nx affected:test --base=origin/main --head=HEAD --plain)"
+
+    - name: Build Affected Projects
+      if: steps.affected.outputs.build != ''
+      run: pnpm nx affected:build --base=origin/main --head=HEAD
+
+    - name: Test Affected Projects
+      if: steps.affected.outputs.test != ''
+      run: pnpm nx affected:test --base=origin/main --head=HEAD

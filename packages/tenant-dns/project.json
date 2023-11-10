@@ -1,0 +1,37 @@
+{
+  "name": "tenant-dns",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/tenant-dns/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/tenant-dns",
+        "main": "packages/tenant-dns/src/index.ts",
+        "tsConfig": "packages/tenant-dns/tsconfig.lib.json",
+        "assets": ["packages/tenant-dns/*.md"]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs tenant-dns {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/tenant-dns/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/tenant-dns/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}

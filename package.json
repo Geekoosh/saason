@@ -2,15 +2,42 @@
   "name": "saason",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "preinstall": "npx only-allow pnpm"
+  },
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "@aws-sdk/client-route-53": "^3.445.0",
+    "@thadeu/jest-localstack-preset": "^1.0.10",
+    "aws-sdk": "^2.1369.0",
+    "deepmerge": "^4.3.1",
+    "is-valid-domain": "^0.1.6",
+    "merge": "^2.1.1",
+    "p-retry": "^4.6.2",
+    "p-timeout": "^4.1.0",
+    "tslib": "^2.3.0"
+  },
   "devDependencies": {
-    "@nx/js": "16.0.1",
-    "@nx/workspace": "16.0.1",
-    "nx": "16.0.1",
-    "nx-cloud": "latest",
+    "@nx/eslint": "17.1.1",
+    "@nx/eslint-plugin": "17.1.1",
+    "@nx/jest": "17.1.1",
+    "@nx/js": "17.1.1",
+    "@nx/workspace": "17.1.1",
+    "@types/jest": "^29.4.0",
+    "@types/node": "16.11.7",
+    "@typescript-eslint/eslint-plugin": "6.10.0",
+    "@typescript-eslint/parser": "6.10.0",
+    "esbuild-jest": "^0.5.0",
+    "eslint": "8.46.0",
+    "eslint-config-prettier": "9.0.0",
+    "esm": "^3.2.25",
+    "jest": "^29.4.1",
+    "jest-environment-jsdom": "^29.4.1",
+    "nx": "17.1.1",
     "prettier": "^2.6.2",
-    "typescript": "~4.9.5"
+    "testcontainers": "^9.6.0",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "5.2.2"
   }
 }
