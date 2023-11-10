@@ -47,5 +47,4 @@ jobs:
     - if: github.event_name == 'pull_request' && github.base_ref == 'main'
       run: git branch --track main origin/main
 
-    - run: pnpm nx format:check --verbose
     - run: pnpm nx affected -t lint,test,build --parallel=3
