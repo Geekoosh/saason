@@ -41,14 +41,6 @@ jobs:
     - name: Install Dependencies
       run: pnpm install
 
-    - name: Evaluate affected
-      uses: leanix/nx-affected-dependencies-action@v0.2.1
-      id: affected
-      with:
-        project: pathfinder
-        base: ${{ github.sha }}~1
-        head: ${{ github.sha }}
-
     - run: "git branch --track ${{github.base_ref}} origin/${{github.base_ref}}"
     - run: "git branch --track ${{github.head_ref}} origin/${{github.head_ref}}"
     - run: pnpm nx affected:lint --base=${{ github.base_ref }} --head=${{ github.head_ref }}
