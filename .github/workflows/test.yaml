@@ -42,7 +42,9 @@ jobs:
       run: pnpm install
 
     - name: Test Affected Projects
+      if: github.event_name == 'pull_request' && github.base_ref == 'main'
       run: pnpm nx affected -t test --base=main --head=HEAD
     
     - name: Test Affected Projects Last Commit
-      run: pnpm nx affected -t test --base=main --head=HEAD~1
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      run: pnpm nx affected -t test --base=main~1 --head=HEAD
