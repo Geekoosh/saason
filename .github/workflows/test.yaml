@@ -41,10 +41,16 @@ jobs:
     - name: Install Dependencies
       run: pnpm install
 
-    - name: Test Affected Projects
-      if: github.event_name == 'pull_request' && github.base_ref == 'main'
-      run: pnpm nx affected -t test --base=main --head=HEAD
-    
-    - name: Test Affected Projects Last Commit
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      run: pnpm nx affected -t test --base=main~1 --head=main
+    - name: Evaluate affected
+      uses: leanix/nx-affected-dependencies-action@v0.2.1
+      id: affected
+      with:
+        project: pathfinder
+        base: ${{ github.sha }}~1
+        head: ${{ github.sha }}
+
+    - name: Run Unit Tests (Affected)
+      if: steps.affected.outputs.isAffected == 'true'
+      env:
+        affectedDeps: ${{ steps.affected.outputs.affectedDeps }}
+      run: npx nx run-many --target=test --projects=$affectedDeps
