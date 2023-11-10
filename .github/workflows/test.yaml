@@ -41,16 +41,5 @@ jobs:
     - name: Install Dependencies
       run: pnpm install
 
-    - name: Determine Affected Projects
-      id: affected
-      run: |
-        echo "::set-output name=build::$(pnpm nx affected:build --base=origin/main --head=HEAD --plain --all)"
-        echo "::set-output name=test::$(pnpm nx affected:test --base=origin/main --head=HEAD --plain --all)"
-
-    - name: Build Affected Projects
-      if: steps.affected.outputs.build != ''
-      run: pnpm nx affected:build --base=origin/main --head=HEAD --all
-
     - name: Test Affected Projects
-      if: steps.affected.outputs.test != ''
-      run: pnpm nx affected:test --base=origin/main --head=HEAD --all
+      run: pnpm nx affected -t test --base=main --head=HEAD
