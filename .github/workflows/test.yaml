@@ -49,8 +49,8 @@ jobs:
         base: ${{ github.sha }}~1
         head: ${{ github.sha }}
 
-    - name: Run Unit Tests (Affected)
-      if: steps.affected.outputs.isAffected == 'true'
-      env:
-        affectedDeps: ${{ steps.affected.outputs.affectedDeps }}
-      run: npx nx run-many --target=test --projects=$affectedDeps
+    - run: "git branch --track ${{github.base_ref}} origin/${{github.base_ref}}"
+    - run: "git branch --track ${{github.head_ref}} origin/${{github.head_ref}}"
+    - run: pnpm nx affected:lint --base=${{ github.base_ref }} --head=${{ github.head_ref }}
+    - run: pnpm nx affected:test --base=${{  github.base_ref }} --head=${{ github.head_ref }}
+    - run: pnpm nx affected:build --base=${{  github.base_ref }} --head=${{ github.head_ref }}
