@@ -43,3 +43,6 @@ jobs:
 
     - name: Test Affected Projects
       run: pnpm nx affected -t test --base=main --head=HEAD
+    
+    - name: Test Affected Projects Last Commit
+      run: pnpm nx affected -t test --base=main~1 --head=HEAD
