@@ -15,6 +15,9 @@ export interface Route53ProviderOptions {
     meaningfulSubdomainPostfixes?: string[];
 }
 
+export const LB_HOSTED_ZONE_ID = 'Z2L77D8WE715BK';
+export const CLOUDFRONT_HOSTED_ZONE_ID = 'Z2FDTNDATAQYW2';
+
 export class Route53Provider {
     private readonly route53: Route53;
     hostedZoneId: string;
@@ -126,7 +129,7 @@ export class Route53Provider {
         return this.createSubdomainForAliasTarget(
             subdomain,
             albDnsName,
-            'Z2L77D8WE715BK',
+            LB_HOSTED_ZONE_ID,
             account,
             options,
         );
@@ -181,7 +184,7 @@ export class Route53Provider {
         return this.createSubdomainForAliasTarget(
             subdomain,
             cloudfrontDistribution,
-            'Z2FDTNDATAQYW2',
+            CLOUDFRONT_HOSTED_ZONE_ID,
             account,
             options,
         );
