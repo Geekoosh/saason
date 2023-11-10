@@ -2,9 +2,9 @@ name: Affected Build and Test
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
 
 jobs:
   affected:
@@ -12,7 +12,9 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+      with:
+          fetch-depth: 0
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -41,8 +43,8 @@ jobs:
     - name: Install Dependencies
       run: pnpm install
 
-    - run: "git branch --track ${{github.base_ref}} origin/${{github.base_ref}}"
-    - run: "git branch --track ${{github.head_ref}} origin/${{github.head_ref}}"
-    - run: pnpm nx affected:lint --base=${{ github.base_ref }} --head=${{ github.head_ref }}
-    - run: pnpm nx affected:test --base=${{  github.base_ref }} --head=${{ github.head_ref }}
-    - run: pnpm nx affected:build --base=${{  github.base_ref }} --head=${{ github.head_ref }}
+    - uses: nrwl/nx-set-shas@v3
+    - run: git branch --track main origin/main
+
+    - run: npx nx format:check
+    - run: npx nx affected -t lint,test,build --parallel=3
